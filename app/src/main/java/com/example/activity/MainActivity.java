@@ -1,73 +1,96 @@
 package com.example.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+
     public static final String TAG = "StartActivity";
 
     private Integer count = 5;
 
-    // Вызывается при создании Активности
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toast.makeText(this, "onCreate()", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onCreate");
+        Toast.makeText(this, "onCreate()", Toast.LENGTH_LONG).show();
     }
 
+
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        Toast.makeText(this, " onRestoreInstanceState()", Toast.LENGTH_LONG).show();
-        Log.d(TAG, "onStart");
-    }
-    @Override
-    public void onRestart(){
-        super.onRestart();
-        Toast.makeText(this, "onRestart()", Toast.LENGTH_LONG).show();
-        Log.d(TAG, "onRestart");
-    }
-    @Override
-    public void onStart(){
+    protected void onStart() {
         super.onStart();
-        Toast.makeText(this, "onStart()", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onStart");
+        resetUI();
+        Toast.makeText(this, "onStart()", Toast.LENGTH_LONG).show();
     }
+
     @Override
-    public void onResume(){
+    protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "onResume()", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onResume");
-
-    }
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        Toast.makeText(this, "onSaveInstanceState()", Toast.LENGTH_LONG).show();
-        Log.d(TAG, "onSaveInstaceState");
+        Toast.makeText(this, "onResume()", Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void onPause(){
+    protected void onPause() {
         super.onPause();
-        Toast.makeText(this, "onPause()", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onPause");
+        Toast.makeText(this, "onPause()", Toast.LENGTH_LONG).show();
     }
+
     @Override
-    public void onStop(){
+    protected void onStop() {
         super.onStop();
-        Toast.makeText(this, "onStop()", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onStop");
+        Toast.makeText(this, "onStop()", Toast.LENGTH_LONG).show();
     }
+
     @Override
-    public void onDestroy(){
-        super.onDestroy();
-        Toast.makeText(this, "onDestroy()", Toast.LENGTH_LONG).show();
-        Log.d(TAG, "onDestroy");
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart");
+        Toast.makeText(this, " onRestart ()", Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
+        Toast.makeText(this, "onDestroy()", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("count", count);
+        Log.d(TAG, "onSaveInstanceState");
+        Toast.makeText(this, " onSaveInstanceState ()", Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null &&
+                savedInstanceState.containsKey("count")) {
+            count = savedInstanceState.getInt("count");
+        }
+        Log.d(TAG, "onRestoreInstanceState");
+        Toast.makeText(this, "onRestoreInstanceState()", Toast.LENGTH_LONG).show();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void resetUI() {
+        ((TextView) findViewById(R.id.txt_counter)).setText(count.toString());
+        Log.d(TAG, "resetUI");
+        Toast.makeText(this, " resetUI ()", Toast.LENGTH_LONG).show();
+    }
+
 
 }
